@@ -1,8 +1,27 @@
-// --- User Session Context Engine ---
-// In a full application, this object will be populated dynamically from your login database.
-const currentUser = {
-    name: "Gayatri" // Change this name to "Rahul", "Anu", etc., and the profile icon will update instantly!
-};
+// --- Global Active Session Engine ---
+let currentUser = { name: "" };
+
+// --- 1. Authentic Login Form Event Pipeline ---
+function handleLogin(event) {
+    event.preventDefault(); // Prevents page reload
+    
+    const nameInput = document.getElementById('user-name-input');
+    if (!nameInput || nameInput.value.trim() === "") return;
+
+    // Capture dynamic login credentials
+    currentUser.name = nameInput.value.trim();
+
+    // Select view structures
+    const loginOverlay = document.getElementById('login-overlay');
+    const appWrapper = document.getElementById('app-wrapper');
+
+    // Generate and inject character symbol avatar
+    initializeUserProfile();
+
+    // Cross-fade views: Drop log screen, show the working main application dashboard
+    if (loginOverlay) loginOverlay.style.setProperty('display', 'none', 'important');
+    if (appWrapper) appWrapper.style.display = 'block';
+}
 
 // --- Dom Elements ---
 const menuBtn = document.getElementById('menu-btn');
@@ -21,61 +40,46 @@ const profileAvatar = document.getElementById('user-profile-avatar');
 // Active Watch History Tracking Engine
 let watchedVideos = []; 
 
-// --- 1. Dynamic Profile Character Initializer ---
+// --- 2. Dynamic Profile Character Initializer ---
 function initializeUserProfile() {
     if (profileAvatar && currentUser && currentUser.name) {
-        // Sanitize name data and extract the first character
         const cleanName = currentUser.name.trim();
         if (cleanName.length > 0) {
             const initialLetter = cleanName.charAt(0).toUpperCase();
-            
-            // Inject the dynamic letter wrapped in a clean layout span
-            profileAvatar.innerHTML = `<span class="avatar-letter" style="
-                color: #ffffff; 
-                font-weight: bold; 
-                font-size: 18px; 
-                font-family: 'Roboto', sans-serif;
-                user-select: none;
-            ">${initialLetter}</span>`;
+            profileAvatar.innerHTML = `<span class="profile-avatar-letter">${initialLetter}</span>`;
         }
     }
 }
 
-// Run the profile avatar injection immediately on page load
-initializeUserProfile();
-
-// --- 2. Toggle Sidebar Window ---
+// --- 3. Toggle Sidebar Window ---
 menuBtn.addEventListener('click', () => {
     sidebar.classList.toggle('small-sidebar');
     content.classList.toggle('large-content');
 });
 
-// --- 3. Theme Toggle (Dark Mode Rule) ---
+// --- 4. Theme Toggle (Dark Mode Rule) ---
 if (profileAvatar) {
     profileAvatar.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
     });
 }
 
-// --- 4. Video Micro-interactions (Hover Preview & Modals Cleanly Merged) ---
+// --- 5. Video Micro-interactions (Hover Preview & Modals Cleanly Merged) ---
 videoCards.forEach(card => {
     const videoId = card.getAttribute('data-video-id');
     const placeholder = card.querySelector('.video-placeholder');
     const originalHTML = placeholder.innerHTML;
 
-    // Hover In: Start muted preview inside the small card
     card.addEventListener('mouseenter', () => {
         placeholder.innerHTML = `
             <iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&rel=0" 
             allow="autoplay" style="pointer-events: none; width: 100%; height: 100%; object-fit: cover;"></iframe>`;
     });
 
-    // Hover Out: Reset back to the normal thumbnail image
     card.addEventListener('mouseleave', () => {
         placeholder.innerHTML = originalHTML;
     });
 
-    // Click: STOP small preview, SAVE history, and OPEN large cinematic modal!
     card.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation(); 
@@ -97,13 +101,12 @@ videoCards.forEach(card => {
     });
 });
 
-// Close Button Logic
 closeBtn.addEventListener('click', () => {
     modal.style.display = 'none';
     modalPlayer.innerHTML = ''; 
 });
 
-// --- 5. Search Bar Filters ---
+// --- 6. Search Bar Filters ---
 document.getElementById('search-input').addEventListener('keyup', (e) => {
     const query = e.target.value.toLowerCase();
     videoCards.forEach(card => {
@@ -112,14 +115,14 @@ document.getElementById('search-input').addEventListener('keyup', (e) => {
     });
 });
 
-// --- 6. Category Chips Navigation ---
+// --- 7. Category Chips Navigation (FIXED CLASSLIST ELEMENT HOOK) ---
 document.querySelectorAll('.chip').forEach(chip => {
     chip.addEventListener('click', () => {
         dynamicPage.style.display = 'none';
         mainFeed.style.display = 'block';
         
         document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-        chip.classList.add('active');
+        chip.classList.add('active'); // FIXED: Changed from chipList to classList
         const selectedCat = chip.textContent.toLowerCase();
 
         videoCards.forEach(card => {
@@ -129,7 +132,7 @@ document.querySelectorAll('.chip').forEach(chip => {
     });
 });
 
-// --- 7. Active Watch History Page Filter ---
+// --- 8. Active Watch History Page Filter ---
 document.getElementById('history-btn').addEventListener('click', () => {
     dynamicPage.style.display = 'none';
     mainFeed.style.display = 'block';
@@ -142,7 +145,7 @@ document.getElementById('history-btn').addEventListener('click', () => {
     });
 });
 
-// --- 8. Home Navigation Tab Controller ---
+// --- 9. Home Navigation Tab Controller ---
 document.getElementById('home-btn').addEventListener('click', () => {
     dynamicPage.style.display = 'none';
     dynamicPage.innerHTML = ''; 
@@ -158,7 +161,7 @@ document.getElementById('home-btn').addEventListener('click', () => {
     });
 });
 
-// --- 9. Complete Dynamic Page Multi-View Logic ---
+// --- 10. Complete Dynamic Page Multi-View Logic ---
 function showDynamicPage(contentHtml) {
     if (mainFeed) mainFeed.style.setProperty('display', 'none', 'important');
     if (chipsWrapper) chipsWrapper.style.display = 'none';
@@ -231,7 +234,6 @@ document.getElementById('shorts-btn').addEventListener('click', () => {
     
     showDynamicPage(shortsHtml);
 
-    // --- SMART AUDIO FEED HANDLER ENGINE ---
     const wrapper = document.querySelector('.shorts-wrapper');
     const containers = document.querySelectorAll('.short-container');
 
