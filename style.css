@@ -1,6 +1,42 @@
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
 body { background-color: #f9f9f9; transition: background-color 0.4s ease; }
 
+/* LOGIN SCREEN STYLES */
+#login-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background-color: #ffffff;
+    display: flex; justify-content: center; align-items: center;
+    z-index: 100000;
+}
+.login-card {
+    width: 450px; padding: 40px;
+    border: 1px solid #dadce0; border-radius: 8px;
+    text-align: center; background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.login-logo { width: 120px; height: 30px; margin-bottom: 24px; object-fit: contain; }
+.login-card h2 { font-size: 24px; font-weight: 400; margin-bottom: 8px; color: #202124; }
+.login-card p { font-size: 16px; color: #5f6368; margin-bottom: 30px; }
+.input-group { width: 100%; margin-bottom: 25px; }
+.input-group input {
+    width: 100%; padding: 14px;
+    border: 1px solid #dadce0; border-radius: 4px;
+    font-size: 16px; outline: none; transition: border-color 0.2s;
+}
+.input-group input:focus { border-color: #1a73e8; }
+.login-submit-btn {
+    width: 100%; padding: 12px;
+    background-color: #1a73e8; color: white;
+    border: none; border-radius: 4px;
+    font-size: 14px; font-weight: bold; cursor: pointer;
+    transition: background 0.2s;
+}
+.login-submit-btn:hover { background-color: #1557b0; }
+
+/* Custom Scrollbar */
+... (rest of your CSS stylesheet stays exactly the same)
 /* Custom Scrollbar */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
