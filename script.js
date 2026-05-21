@@ -14,9 +14,13 @@ function handleLogin(event) {
     // Select view structures
     const loginOverlay = document.getElementById('login-overlay');
     const appWrapper = document.getElementById('app-wrapper');
+    const dropdownLabel = document.getElementById('dropdown-user-name');
 
     // Generate and inject character symbol avatar
     initializeUserProfile();
+
+    // Populate user profile string inside account widget panel header
+    if (dropdownLabel) dropdownLabel.textContent = `Hi, ${currentUser.name}! 👋`;
 
     // Cross-fade views: Drop log screen, show the working main application dashboard
     if (loginOverlay) loginOverlay.style.setProperty('display', 'none', 'important');
@@ -37,7 +41,11 @@ const dynamicPage = document.getElementById('dynamic-page-container');
 const chipsWrapper = document.querySelector('.chips-wrapper');
 const profileAvatar = document.getElementById('user-profile-avatar');
 
-// Active Watch History Tracking Engine
+// Dropdown Element Additions
+const profileMenu = document.getElementById('profile-menu');
+const themeToggleBtn = document.getElementById('theme-toggle-btn');
+const logoutBtn = document.getElementById('logout-btn');
+
 let watchedVideos = []; 
 
 // --- 2. Dynamic Profile Character Initializer ---
@@ -51,20 +59,51 @@ function initializeUserProfile() {
     }
 }
 
-// --- 3. Toggle Sidebar Window ---
+// --- 3. Toggle Account Settings Dropdown Overlay Menu ---
+if (profileAvatar) {
+    profileAvatar.addEventListener('click', (e) => {
+        e.stopPropagation(); // Stops immediate window-click closing
+        profileMenu.classList.toggle('active-menu');
+    });
+}
+
+// --- 4. Toggle Theme (Moved inside Dropdown Item Box handler) ---
+if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        // Update label text based on state
+        themeToggleBtn.textContent = document.body.classList.contains('dark-mode') ? "☀️ Light Mode" : "HN Dark Mode";
+    });
+}
+
+// --- 5. LOGOUT REVERSAL SYSTEM LOGIC ---
+if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+        // Clear runtime strings
+        currentUser.name = "";
+        document.getElementById('user-name-input').value = "";
+        
+        // Close account context dropdown widget state cleanly
+        profileMenu.classList.remove('active-menu');
+
+        // Swap viewport views back over to startup state layout cards
+        document.getElementById('app-wrapper').style.display = 'none';
+        document.getElementById('login-overlay').style.setProperty('display', 'flex', 'important');
+    });
+}
+
+// Close Dropdown Menu when clicking anywhere else on the screen window interface
+window.addEventListener('click', () => {
+    if (profileMenu) profileMenu.classList.remove('active-menu');
+});
+
+// --- 6. Toggle Sidebar Window ---
 menuBtn.addEventListener('click', () => {
     sidebar.classList.toggle('small-sidebar');
     content.classList.toggle('large-content');
 });
 
-// --- 4. Theme Toggle (Dark Mode Rule) ---
-if (profileAvatar) {
-    profileAvatar.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-    });
-}
-
-// --- 5. Video Micro-interactions (Hover Preview & Modals Cleanly Merged) ---
+// --- 7. Video Micro-interactions (Hover Preview & Modals) ---
 videoCards.forEach(card => {
     const videoId = card.getAttribute('data-video-id');
     const placeholder = card.querySelector('.video-placeholder');
@@ -106,7 +145,7 @@ closeBtn.addEventListener('click', () => {
     modalPlayer.innerHTML = ''; 
 });
 
-// --- 6. Search Bar Filters ---
+// --- 8. Search Bar Filters ---
 document.getElementById('search-input').addEventListener('keyup', (e) => {
     const query = e.target.value.toLowerCase();
     videoCards.forEach(card => {
@@ -115,14 +154,14 @@ document.getElementById('search-input').addEventListener('keyup', (e) => {
     });
 });
 
-// --- 7. Category Chips Navigation (FIXED CLASSLIST ELEMENT HOOK) ---
+// --- 9. Category Chips Navigation ---
 document.querySelectorAll('.chip').forEach(chip => {
     chip.addEventListener('click', () => {
         dynamicPage.style.display = 'none';
         mainFeed.style.display = 'block';
         
         document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-        chip.classList.add('active'); // FIXED: Changed from chipList to classList
+        chip.classList.add('active');
         const selectedCat = chip.textContent.toLowerCase();
 
         videoCards.forEach(card => {
@@ -132,7 +171,7 @@ document.querySelectorAll('.chip').forEach(chip => {
     });
 });
 
-// --- 8. Active Watch History Page Filter ---
+// --- 10. Active Watch History Page Filter ---
 document.getElementById('history-btn').addEventListener('click', () => {
     dynamicPage.style.display = 'none';
     mainFeed.style.display = 'block';
@@ -145,7 +184,7 @@ document.getElementById('history-btn').addEventListener('click', () => {
     });
 });
 
-// --- 9. Home Navigation Tab Controller ---
+// --- 11. Home Navigation Tab Controller ---
 document.getElementById('home-btn').addEventListener('click', () => {
     dynamicPage.style.display = 'none';
     dynamicPage.innerHTML = ''; 
@@ -161,7 +200,7 @@ document.getElementById('home-btn').addEventListener('click', () => {
     });
 });
 
-// --- 10. Complete Dynamic Page Multi-View Logic ---
+// --- 12. Complete Dynamic Page Multi-View Logic ---
 function showDynamicPage(contentHtml) {
     if (mainFeed) mainFeed.style.setProperty('display', 'none', 'important');
     if (chipsWrapper) chipsWrapper.style.display = 'none';
@@ -197,7 +236,7 @@ document.getElementById('shorts-btn').addEventListener('click', () => {
                 justify-content: center; 
                 align-items: center;
             ">
-                <div class="video-holder-slot" style="width: 280px; height: 480px; background: #000; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); overflow: hidden;">
+                <div class="video-holder-slot" style="width: 280px; height: 480px; background: #000; border-radius: 16px; box-shadow: 0 8px 24 rgba(0,0,0,0.3); overflow: hidden;">
                     <img src="https://i.ytimg.com/vi/u3Y6XN2ll_M/hqdefault.jpg" style="width:100%; height:100%; object-fit:cover;">
                 </div>
                 <p style="margin-top: 12px; font-weight: bold; font-size: 16px;">Darling Status Mix</p>
