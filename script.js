@@ -268,6 +268,19 @@ document.getElementById('shorts-btn').addEventListener('click', () => {
                 <p style="margin-top: 12px; font-weight: bold; font-size: 16px;">Amma Comedy | Aura Things</p>
             </div>
 
+            <div class="short-container" data-video-id="kfNij2_UQT0" style="
+                min-height: calc(100vh - 120px); 
+                display: flex; 
+                flex-direction: column; 
+                justify-content: center; 
+                align-items: center;
+            ">
+                <div class="video-holder-slot" style="width: 280px; height: 480px; background: #000; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); overflow: hidden;">
+                    <img src="https://i.ytimg.com/vi/kfNij2_UQT0/hqdefault.jpg" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+                <p style="margin-top: 12px; font-weight: bold; font-size: 16px;">Amma Comedy | Aura Things</p>
+            </div>
+
         </div>
     `;
     
