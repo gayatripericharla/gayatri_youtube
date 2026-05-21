@@ -1,6 +1,67 @@
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
 body { background-color: #f9f9f9; transition: background-color 0.4s ease; }
 
+/* PROFILE MENUBAR DROPDOWN OVERLAY STYLE */
+.profile-dropdown {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width: 220px;
+    background-color: white;
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    display: none; /* Stays invisible until profile image triggers click event */
+    flex-direction: column;
+    padding: 10px 0;
+    z-index: 200;
+}
+.profile-dropdown.active-menu {
+    display: flex;
+}
+.dropdown-header {
+    padding: 10px 20px;
+    font-weight: bold;
+    color: #202124;
+    font-size: 14px;
+    word-break: break-all;
+}
+.profile-dropdown hr {
+    border: none;
+    border-top: 1px solid #dadce0;
+    margin: 5px 0;
+}
+.dropdown-item {
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #3c4043;
+    cursor: pointer;
+    transition: background 0.2s;
+    user-select: none;
+}
+.dropdown-item:hover {
+    background-color: #f1f3f4;
+}
+.logout-item {
+    color: #d93025;
+}
+.logout-item:hover {
+    background-color: #fce8e6;
+}
+
+/* DARK MODE OVERRIDES FOR THE DROPDOWN */
+.dark-mode .profile-dropdown {
+    background-color: #212121;
+    border-color: #3d3d3d;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+.dark-mode .dropdown-header { color: white; }
+.dark-mode .dropdown-item { color: #e8eaed; }
+.dark-mode .dropdown-item:hover { background-color: #383838; }
+.dark-mode .logout-item { color: #f28b82; }
+.dark-mode .logout-item:hover { background-color: #3d2221; }
+.dark-mode .profile-dropdown hr { border-color: #3d3d3d; }
+
 /* LOGIN SCREEN STYLES */
 #login-overlay {
     position: fixed;
@@ -35,8 +96,6 @@ body { background-color: #f9f9f9; transition: background-color 0.4s ease; }
 }
 .login-submit-btn:hover { background-color: #1557b0; }
 
-/* Custom Scrollbar */
-... (rest of your CSS stylesheet stays exactly the same)
 /* Custom Scrollbar */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
