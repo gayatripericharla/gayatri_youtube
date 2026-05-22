@@ -148,11 +148,11 @@ body { background-color: #f9f9f9; transition: background-color 0.4s ease; overfl
 }
 
 /* Sidebar & Content Layout */
-.container { display: flex; width: 100%; }
+.container { display: flex; width: 100%; position: relative; }
 .sidebar {
     width: 240px; background: white; height: calc(100vh - 60px);
-    position: fixed; top: 60px; padding-top: 10px; border-right: 1px solid #f2f2f2;
-    transition: 0.3s; z-index: 99;
+    position: fixed; top: 60px; left: 0; padding-top: 10px; border-right: 1px solid #f2f2f2;
+    transition: 0.3s; z-index: 999; /* Higher z-index to overlay nicely */
 }
 .side-link { display: flex; align-items: center; padding: 12px 25px; cursor: pointer; }
 .side-link:hover { background: #f2f2f2; }
@@ -166,11 +166,10 @@ body { background-color: #f9f9f9; transition: background-color 0.4s ease; overfl
 .content { margin-left: 240px; padding: 20px; width: calc(100% - 240px); transition: 0.3s; overflow-x: hidden; }
 .large-content { margin-left: 80px; width: calc(100% - 80px); }
 
-.chips-wrapper { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; white-space: nowrap; }
-.chips-wrapper::-webkit-scrollbar { display: none; } /* Hide chip scrollbar for clean look */
+.chips-wrapper { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px;}
 .chip {
     padding: 6px 15px; background: #e5e5e5; border: none;
-    border-radius: 8px; cursor: pointer; transition: 0.2s; flex-shrink: 0;
+    border-radius: 8px; cursor: pointer; transition: 0.2s;
 }
 .chip.active { background: #030303; color: white; }
 
@@ -220,7 +219,6 @@ body { background-color: #f9f9f9; transition: background-color 0.4s ease; overfl
     background: rgba(0, 0, 0, 0.9);
     justify-content: center; 
     align-items: center;
-    padding: 10px;
 }
 
 .modal-content { 
@@ -236,42 +234,64 @@ body { background-color: #f9f9f9; transition: background-color 0.4s ease; overfl
 .dark-mode { background-color: #0f0f0f; color: white; }
 .dark-mode .navbar, .dark-mode .sidebar { background: #0f0f0f; border-color: #333; color: white; }
 .dark-mode .video-text h3 { color: white; }
-.dark-mode .dark-mode .video-text p { color: #aaa; }
+.dark-mode .video-text p { color: #aaa; }
 .dark-mode .chip { background: #272727; color: white; }
 .dark-mode .chip.active { background: white; color: black; }
 .dark-mode .search-box input { background: #121212; color: white; border-color: #333; }
 .dark-mode .logo { filter: invert(100%) brightness(200%); }
 
-/* ========================================== */
-/* 📱 SMART PHONE RESPONSIVE STYLES (ADDED) */
-/* ========================================== */
+/* ======================================================== */
+/* 📱 EXCLUSIVE SMARTPHONE RESPONSIVE BREAKPOINT CORRECTIONS */
+/* ======================================================== */
 @media (max-width: 768px) {
-    .login-card { width: 90%; padding: 25px 20px; }
+    .login-card { width: 90%; padding: 30px 20px; }
+    
+    /* Navbar spacing structure fixes */
     .navbar { padding: 10px; gap: 5px; }
     .nav-left { gap: 8px; }
     .logo { width: 80px; }
-    #menu-btn { font-size: 20px; }
-    .search-box input { width: 130px; padding: 6px 12px; font-size: 14px; }
+    .search-box input { width: 120px; padding: 6px 12px; font-size: 14px; }
     .search-btn { padding: 6px 10px; }
     .nav-right { gap: 10px; }
-    .nav-right span { display: none; } /* Hides video icon and notification bell on phones for space */
-    
-    /* Push sidebar out of screen layout on mobile */
-    .sidebar { transform: translateX(-100%); width: 200px; box-shadow: 4px 0 10px rgba(0,0,0,0.1); }
-    .sidebar.small-sidebar { transform: translateX(0); } /* Slide-in menu when clicking hamburger button */
-    .sidebar.small-sidebar .side-link p { display: block; }
-    .sidebar.small-sidebar .side-link span { margin: 0; }
+    .nav-right span { display: none; } /* Clear out space constraints */
 
+    /* FIXED PROFILE INITIAL DISPLAY: Explicit styling loops to reveal the letter centered on mobile */
+    .user-profile { 
+        width: 36px !important; 
+        height: 36px !important; 
+        display: flex !important; 
+        align-items: center !important; 
+        justify-content: center !important; 
+    }
+    .profile-avatar-letter { 
+        font-size: 16px !important; 
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        line-height: 1 !important;
+    }
+
+    /* FIXED SIDEBAR DRAWER OVERLAY SYSTEM: Prevents overlapping card links text descriptions */
+    .sidebar { 
+        transform: translateX(-100%); 
+        width: 240px !important; 
+        box-shadow: 5px 0 15px rgba(0,0,0,0.2);
+    }
+    /* When user activates sidebar click state, slide out smoothly on top */
+    .sidebar.mobile-open { 
+        transform: translateX(0); 
+    }
+    .sidebar .side-link p { display: block !important; }
+    .sidebar .side-link span { margin-right: 20px !important; }
+
+    /* Content view box now snaps beautifully across 100% width cleanly */
     .content { margin-left: 0 !important; width: 100% !important; padding: 10px; }
-    
-    /* Changes grid from 4 columns to 1 column neatly on phones */
+    .large-content { margin-left: 0 !important; width: 100% !important; }
+
+    /* Dynamic video columns sizing adjustments for responsive screens */
     .video-grid { grid-template-columns: 1fr !important; gap: 15px !important; }
     .video-placeholder { height: auto !important; aspect-ratio: 16/9 !important; }
     
-    .modal-content { width: 100%; }
-    .close-btn { top: -45px; right: 5px; font-size: 35px; }
-    
-    /* Make custom scroll wrapper fully width responsive */
     .shorts-wrapper { width: 100% !important; max-width: 100% !important; }
-    .short-container div { width: 100% !important; max-width: 320px !important; height: calc(100vh - 180px) !important; }
+    .short-container div { width: 100% !important; max-width: 300px !important; height: calc(100vh - 180px) !important; }
 }
