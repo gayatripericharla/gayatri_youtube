@@ -294,19 +294,6 @@ document.getElementById('shorts-btn').addEventListener('click', () => {
                 <p style="margin-top: 12px; font-weight: bold; font-size: 16px;">Radha Krishna | Adharam Madhuram</p>
             </div>
 
-            <div class="short-container" data-video-id="3vFhQ_7vD_0" style="
-                min-height: calc(100vh - 120px); 
-                display: flex; 
-                flex-direction: column; 
-                justify-content: center; 
-                align-items: center;
-            ">
-                <div class="video-holder-slot" style="width: 280px; height: 480px; background: #000; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); overflow: hidden;">
-                    <img src="https://i.ytimg.com/vi/3vFhQ_7vD_0/hqdefault.jpg" style="width:100%; height:100%; object-fit:cover;">
-                </div>
-                <p style="margin-top: 12px; font-weight: bold; font-size: 16px;">Telugu Jabardasth Comedy</p>
-            </div>
-
         </div>
     `;
     
