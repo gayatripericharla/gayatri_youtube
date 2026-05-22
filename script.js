@@ -92,10 +92,22 @@ window.addEventListener('click', () => {
     if (profileMenu) profileMenu.classList.remove('active-menu');
 });
 
-// --- 6. Toggle Sidebar Window (UPDATED FOR RESPONSIVE MOBILE SLIDE) ---
-menuBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('small-sidebar');
-    content.classList.toggle('large-content');
+// --- 6. Toggle Sidebar Window (UPDATED WITH FLUID OVERLAY SLIDE DRAWER LOGIC FOR MOBILES) ---
+menuBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (window.innerWidth <= 768) {
+        sidebar.classList.toggle('mobile-open');
+    } else {
+        sidebar.classList.toggle('small-sidebar');
+        content.classList.toggle('large-content');
+    }
+});
+
+// Close mobile sidebar menu instantly if a user clicks outside the drawer view panel boundaries
+document.addEventListener('click', (e) => {
+    if (window.innerWidth <= 768 && !sidebar.contains(e.target) && e.target !== menuBtn) {
+        sidebar.classList.remove('mobile-open');
+    }
 });
 
 // --- 7. Video Micro-interactions (Hover Preview & Modals) ---
@@ -105,7 +117,6 @@ videoCards.forEach(card => {
     const originalHTML = placeholder.innerHTML;
 
     card.addEventListener('mouseenter', () => {
-        // Prevents hover preview playing on mobile phones to save performance layout bounds
         if (window.innerWidth > 768) {
             placeholder.innerHTML = `
                 <iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&rel=0" 
@@ -157,6 +168,7 @@ document.querySelectorAll('.chip').forEach(chip => {
     chip.addEventListener('click', () => {
         dynamicPage.style.display = 'none';
         mainFeed.style.display = 'block';
+        sidebar.classList.remove('mobile-open'); // Auto close menu drawer
         
         document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
         chip.classList.add('active');
@@ -174,6 +186,7 @@ document.getElementById('history-btn').addEventListener('click', () => {
     dynamicPage.style.display = 'none';
     mainFeed.style.display = 'block';
     chipsWrapper.style.display = 'flex';
+    sidebar.classList.remove('mobile-open');
 
     document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
     videoCards.forEach(card => {
@@ -188,6 +201,7 @@ document.getElementById('home-btn').addEventListener('click', () => {
     dynamicPage.innerHTML = ''; 
     mainFeed.style.display = 'block';
     chipsWrapper.style.display = 'flex';
+    sidebar.classList.remove('mobile-open');
 
     document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
     const allChip = document.querySelector('.chip'); 
@@ -209,6 +223,7 @@ function showDynamicPage(contentHtml) {
 
 // Shorts View Engine (NOW WITH 5 INTERACTIVE SHORTS CARDS)
 document.getElementById('shorts-btn').addEventListener('click', () => {
+    sidebar.classList.remove('mobile-open');
     const shortsHtml = `
         <div class="shorts-wrapper" style="
             height: calc(100vh - 80px); 
@@ -324,50 +339,4 @@ document.getElementById('shorts-btn').addEventListener('click', () => {
     }, observerOptions);
 
     containers.forEach(container => shortsObserver.observe(container));
-});
-
-// --- Subscriptions View ---
-document.getElementById('subs-btn').addEventListener('click', () => {
-    const subsHtml = `
-        <div class="subs-page" style="padding: 20px;">
-            <h2>🔔 Latest From Your Subscriptions</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 20px; margin-top: 30px; text-align: center;">
-                <div>
-                    <div style="width: 80px; height: 80px; border-radius: 50%; background: #333; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 24px;">🎬</div>
-                    <p style="font-weight: 500; color:var(--text-color);">Hombale Films</p>
-                </div>
-                <div>
-                    <div style="width: 80px; height: 80px; border-radius: 50%; background: #ff9800; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 24px;">🍳</div>
-                    <p style="font-weight: 500; color:var(--text-color);">Amma Chethi Vanta</p>
-                </div>
-                <div>
-                    <div style="width: 80px; height: 80px; border-radius: 50%; background: #9c27b0; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 24px;">🐍</div>
-                    <p style="font-weight: 500; color:var(--text-color);">Data Science Daily</p>
-                </div>
-            </div>
-        </div>
-    `;
-    showDynamicPage(subsHtml);
-});
-
-// --- Library View ---
-document.getElementById('library-btn').addEventListener('click', () => {
-    const libraryHtml = `
-        <div class="library-page" style="padding: 20px;">
-            <h2>📚 Your Personal Library</h2>
-            <div style="margin-top: 20px; border-left: 4px solid #cc0000; padding-left: 15px; margin-bottom: 25px;">
-                <h4 style="margin: 0 0 5px 0;">👍 Liked Videos</h4>
-                <p style="margin: 0; color: #666; font-size: 14px;">3 Videos liked recently</p>
-            </div>
-            <div style="border-left: 4px solid #00e5ff; padding-left: 15px; margin-bottom: 25px;">
-                <h4 style="margin: 0 0 5px 0;">📁 Playlists</h4>
-                <p style="margin: 0; color: #666; font-size: 14px;">Telugu Hits • Web Development Practice</p>
-            </div>
-            <div style="border-left: 4px solid #4caf50; padding-left: 15px;">
-                <h4 style="margin: 0 0 5px 0;">📥 Downloads</h4>
-                <p style="margin: 0; color: #666; font-size: 14px;">0 offline videos available</p>
-            </div>
-        </div>
-    `;
-    showDynamicPage(libraryHtml);
 });
