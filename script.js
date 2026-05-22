@@ -67,26 +67,21 @@ if (profileAvatar) {
     });
 }
 
-// --- 4. Toggle Theme (Moved inside Dropdown Item Box handler) ---
+// --- 4. Toggle Theme ---
 if (themeToggleBtn) {
     themeToggleBtn.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
-        // Update label text based on state
-        themeToggleBtn.textContent = document.body.classList.contains('dark-mode') ? "☀️ Light Mode" : "HN Dark Mode";
+        themeToggleBtn.textContent = document.body.classList.contains('dark-mode') ? "☀️ Light Mode" : "🌙 Dark Mode";
     });
 }
 
 // --- 5. LOGOUT REVERSAL SYSTEM LOGIC ---
 if (logoutBtn) {
     logoutBtn.addEventListener('click', () => {
-        // Clear runtime strings
         currentUser.name = "";
         document.getElementById('user-name-input').value = "";
-        
-        // Close account context dropdown widget state cleanly
         profileMenu.classList.remove('active-menu');
 
-        // Swap viewport views back over to startup state layout cards
         document.getElementById('app-wrapper').style.display = 'none';
         document.getElementById('login-overlay').style.setProperty('display', 'flex', 'important');
     });
@@ -97,7 +92,7 @@ window.addEventListener('click', () => {
     if (profileMenu) profileMenu.classList.remove('active-menu');
 });
 
-// --- 6. Toggle Sidebar Window ---
+// --- 6. Toggle Sidebar Window (UPDATED FOR RESPONSIVE MOBILE SLIDE) ---
 menuBtn.addEventListener('click', () => {
     sidebar.classList.toggle('small-sidebar');
     content.classList.toggle('large-content');
@@ -110,13 +105,16 @@ videoCards.forEach(card => {
     const originalHTML = placeholder.innerHTML;
 
     card.addEventListener('mouseenter', () => {
-        placeholder.innerHTML = `
-            <iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&rel=0" 
-            allow="autoplay" style="pointer-events: none; width: 100%; height: 100%; object-fit: cover;"></iframe>`;
+        // Prevents hover preview playing on mobile phones to save performance layout bounds
+        if (window.innerWidth > 768) {
+            placeholder.innerHTML = `
+                <iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&rel=0" 
+                allow="autoplay" style="pointer-events: none; width: 100%; height: 100%; object-fit: cover;"></iframe>`;
+        }
     });
 
     card.addEventListener('mouseleave', () => {
-        placeholder.innerHTML = originalHTML;
+        if (window.innerWidth > 768) placeholder.innerHTML = originalHTML;
     });
 
     card.addEventListener('click', (e) => {
@@ -209,7 +207,7 @@ function showDynamicPage(contentHtml) {
     dynamicPage.style.display = 'block';
 }
 
-// Shorts View Engine
+// Shorts View Engine (NOW WITH 5 INTERACTIVE SHORTS CARDS)
 document.getElementById('shorts-btn').addEventListener('click', () => {
     const shortsHtml = `
         <div class="shorts-wrapper" style="
@@ -236,7 +234,7 @@ document.getElementById('shorts-btn').addEventListener('click', () => {
                 justify-content: center; 
                 align-items: center;
             ">
-                <div class="video-holder-slot" style="width: 280px; height: 480px; background: #000; border-radius: 16px; box-shadow: 0 8px 24 rgba(0,0,0,0.3); overflow: hidden;">
+                <div class="video-holder-slot" style="width: 280px; height: 480px; background: #000; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); overflow: hidden;">
                     <img src="https://i.ytimg.com/vi/u3Y6XN2ll_M/hqdefault.jpg" style="width:100%; height:100%; object-fit:cover;">
                 </div>
                 <p style="margin-top: 12px; font-weight: bold; font-size: 16px;">Darling Status Mix</p>
@@ -268,7 +266,7 @@ document.getElementById('shorts-btn').addEventListener('click', () => {
                 <p style="margin-top: 12px; font-weight: bold; font-size: 16px;">Amma Comedy | Aura Things</p>
             </div>
 
-            <div class="short-container" data-video-id="b6IEVaBcE9s" style="
+            <div class="short-container" data-video-id="LTKk1DBLWRI" style="
                 min-height: calc(100vh - 120px); 
                 display: flex; 
                 flex-direction: column; 
@@ -276,9 +274,22 @@ document.getElementById('shorts-btn').addEventListener('click', () => {
                 align-items: center;
             ">
                 <div class="video-holder-slot" style="width: 280px; height: 480px; background: #000; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); overflow: hidden;">
-                    <img src="https://i.ytimg.com/vi/b6IEVaBcE9s/hqdefault.jpg" style="width:100%; height:100%; object-fit:cover;">
+                    <img src="https://i.ytimg.com/vi/LTKk1DBLWRI/hqdefault.jpg" style="width:100%; height:100%; object-fit:cover;">
                 </div>
-                <p style="margin-top: 12px; font-weight: bold; font-size: 16px;">darling prabhas video</p>
+                <p style="margin-top: 12px; font-weight: bold; font-size: 16px;">Radha Krishna | Adharam Madhuram</p>
+            </div>
+
+            <div class="short-container" data-video-id="3vFhQ_7vD_0" style="
+                min-height: calc(100vh - 120px); 
+                display: flex; 
+                flex-direction: column; 
+                justify-content: center; 
+                align-items: center;
+            ">
+                <div class="video-holder-slot" style="width: 280px; height: 480px; background: #000; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); overflow: hidden;">
+                    <img src="https://i.ytimg.com/vi/3vFhQ_7vD_0/hqdefault.jpg" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+                <p style="margin-top: 12px; font-weight: bold; font-size: 16px;">Telugu Jabardasth Comedy</p>
             </div>
 
         </div>
