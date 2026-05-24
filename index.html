@@ -8,19 +8,33 @@
 </head>
 <body>
 
-    <div id="login-overlay">
-    <div class="login-card">
-        <h1 style="color: #cc0000; font-size: 28px; margin-bottom: 10px; font-family: sans-serif;">Gayatri's Project</h1>
-        <h2>Video Dashboard Portal</h2>
-        <p>Please enter your name to personalize the interface letters</p>
+    <div id="login-overlay" style="
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+    background: #111; display: flex; justify-content: center; align-items: center; z-index: 100000;
+">
+    <div class="login-card" style="
+        width: 400px; padding: 40px 30px; background: #1e1e1e; border-radius: 12px; 
+        text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: white; border: none;
+    ">
+        
+        <h2 style="color: #4cd137; font-size: 26px; margin-bottom: 8px; font-family: sans-serif; letter-spacing: 1px;">GAYATRI STUDIO</h2>
+        <p style="font-size: 14px; color: #888; margin-bottom: 30px;">Front-End Responsive Development Prototype</p>
+        
         <form id="login-form" onsubmit="handleLogin(event)">
-            <div class="input-group">
-                <input type="text" id="user-name-input" required placeholder="Your Name">
+            <div class="input-group" style="margin-bottom: 25px;">
+                <input type="text" id="user-name-input" required placeholder="Enter developer name..." style="
+                    width: 100%; padding: 14px; background: #2f3640; border: 1px solid #718093; 
+                    color: white; border-radius: 6px; font-size: 16px; outline: none; text-align: center;
+                ">
             </div>
-            <button type="submit" class="login-submit-btn">Enter Studio</button>
+            <button type="submit" class="login-submit-btn" style="
+                width: 100%; padding: 14px; background: #4cd137; color: black; 
+                border: none; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; letter-spacing: 0.5px;
+            ">OPEN COMPONENT WORKSPACE</button>
         </form>
+
     </div>
-    </div>
+</div>
 
     <div id="app-wrapper" style="display: none;">
         
